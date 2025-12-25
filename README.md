@@ -7,7 +7,7 @@ A Dockerized backend system for issuing and redeeming gift cards securely.
 - Database: PostgreSQL
 - Cache: Redis
 - Frontend: HTML, CSS, JS
-- Containerization: Docker, Docker Compose
+- Containerization: Docker
 
 ## Features
 - Gift card issuance
