@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Card Redemption System</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>✨ Gift Card System</h1>
+
+    <div class="main-wrapper">
+        <!-- Issue Section -->
+        <div class="card">
+            <h2>💳 Issue New Card</h2>
+            <div class="form-group">
+                <label for="issueAmount">Initial Balance (₹)</label>
+                <input type="number" id="issueAmount" value="1000.00" step="1.00" min="1">
+            </div>
+            <button onclick="issueCard()" id="issueBtn">Generate Card</button>
+            <div id="issueResult" class="result"></div>
+        </div>
+
+        <!-- Validate Section -->
+        <div class="card">
+            <h2>🔍 Check Balance</h2>
+            <div class="form-group">
+                <label for="validateCode">Gift Card Code</label>
+                <input type="text" id="validateCode" placeholder="Enter 12-digit code" maxlength="12" style="text-transform: uppercase;">
+            </div>
+            <button onclick="validateCard()" id="validateBtn">Check Status</button>
+            <div id="validateResult" class="result"></div>
+        </div>
+
+        <!-- Redeem Section -->
+        <div class="card">
+            <h2>🛍️ Redeem Card</h2>
+            <div class="form-group">
+                <label for="redeemCode">Gift Card Code</label>
+                <input type="text" id="redeemCode" placeholder="Enter 12-digit code" maxlength="12" style="text-transform: uppercase;">
+            </div>
+            <div class="form-group">
+                <label for="redeemAmount">Amount to Redeem (₹)</label>
+                <input type="number" id="redeemAmount" step="1.00" min="1" placeholder="0.00">
+            </div>
+            <div class="form-group">
+                <label for="redeemComment">Comment (Optional)</label>
+                <input type="text" id="redeemComment" placeholder="e.g., Store purchase #123">
+            </div>
+            <button onclick="redeemCard()" id="redeemBtn">Redeem Balance</button>
+            <div id="redeemResult" class="result"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+</body>
+</html>

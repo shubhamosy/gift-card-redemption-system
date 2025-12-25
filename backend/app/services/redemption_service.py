@@ -60,7 +60,7 @@ class RedemptionService:
         amount: float,
         comment: str = None,
         idempotency_key: str = None
-    ) -> Redemption:
+    ) -> tuple[Redemption, float]:
         
         # 1. Idempotency Check
         redis_client = await get_redis()
@@ -102,4 +102,4 @@ class RedemptionService:
         if idempotency_key:
             await redis_client.set(f"redemption:{idempotency_key}", str(redemption.id), ex=3600)
             
-        return redemption
+        return redemption, gift_card.current_balance

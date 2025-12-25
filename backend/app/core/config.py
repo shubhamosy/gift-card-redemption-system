@@ -1,12 +1,13 @@
+import os
 from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    DATABASE_URL: str = "postgresql+asyncpg://user:password@localhost/giftcard_db"
-    REDIS_URL: str = "redis://localhost:6379/0"
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql+asyncpg://user:password@localhost/giftcard_db")
+    REDIS_URL: str = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 
     class Config:
         env_file = ".env"
-
+        extra = "ignore"
 
 settings = Settings()

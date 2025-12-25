@@ -49,7 +49,7 @@ async def redeem_gift_card(
     request: RedemptionRequest, 
     db: AsyncSession = Depends(get_db)
 ):
-    redemption = await RedemptionService.redeem_gift_card(
+    redemption, new_balance = await RedemptionService.redeem_gift_card(
         db, 
         request.code, 
         request.amount,
@@ -61,6 +61,6 @@ async def redeem_gift_card(
         id=str(redemption.id),
         gift_card_id=str(redemption.gift_card_id),
         amount=redemption.amount,
-        new_balance=redemption.gift_card.current_balance,
+        new_balance=new_balance,
         created_at=redemption.created_at
     )
