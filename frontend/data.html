@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Data - Gift Card System</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .data-section {
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            white-space: nowrap;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .empty-state {
+            color: #666;
+            font-style: italic;
+            padding: 1rem;
+            text-align: center;
+        }
+        .nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .home-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            display: inline-block;
+        }
+        .home-btn:hover {
+            background-color: #475569;
+        }
+        .refresh-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-header">
+            <h1>System Data</h1>
+            <div class="nav-actions">
+                <button onclick="fetchData()" class="refresh-btn">Refresh Data</button>
+                <a href="index.html" class="home-btn">Home</a>
+            </div>
+        </div>
+
+        <div style="background-color: #fff3cd; color: #856404; padding: 1rem; margin-bottom: 2rem; border-radius: 8px; border: 1px solid #ffeeba;">
+            <strong>⚠️ Demo Purpose Only:</strong> This page demonstrates how data is stored in the PostgreSQL database and Redis cache.
+        </div>
+
+        <div class="data-section">
+            <h2>PostgreSQL: Gift Cards</h2>
+            <div id="giftcards-table-container">Loading...</div>
+        </div>
+
+        <div class="data-section">
+            <h2>PostgreSQL: Redemptions</h2>
+            <div id="redemptions-table-container">Loading...</div>
+        </div>
+
+        <div class="data-section">
+            <h2>Redis: Keys & Values</h2>
+            <div id="redis-table-container">Loading...</div>
+        </div>
+    </div>
+    <script src="data.js"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routers import giftcards
+from app.routers import giftcards, admin
 from app.core.database import engine, Base
 from contextlib import asynccontextmanager
 from app.models import giftcard, redemption
@@ -39,6 +39,7 @@ app.add_middleware(
 )
 
 app.include_router(giftcards.router)
+app.include_router(admin.router)
 
 @app.get("/")
 async def root():
