@@ -21,6 +21,10 @@ async def issue_gift_card(
     request: GiftCardCreate, 
     db: AsyncSession = Depends(get_db)
 ):
+    """
+    Issue a new gift card with a specified initial balance.
+    Returns the generated card code and details.
+    """
     code, gift_card = await RedemptionService.create_gift_card(db, request.initial_balance)
     
     return GiftCardResponse(
@@ -36,6 +40,9 @@ async def validate_gift_card(
     code: str, 
     db: AsyncSession = Depends(get_db)
 ):
+    """
+    Validate a gift card code and retrieve its current status and balance.
+    """
     gift_card = await RedemptionService.validate_gift_card(db, code)
     return GiftCardInfo(
         initial_balance=gift_card.initial_balance,
@@ -49,6 +56,10 @@ async def redeem_gift_card(
     request: RedemptionRequest, 
     db: AsyncSession = Depends(get_db)
 ):
+    """
+    Redeem a specific amount from a gift card.
+    Supports idempotency via the 'idempotency_key' field.
+    """
     redemption, new_balance = await RedemptionService.redeem_gift_card(
         db, 
         request.code, 

@@ -1,9 +1,14 @@
 from fastapi import FastAPI
+import logging
 from app.routers import giftcards, admin
 from app.core.database import engine, Base
 from contextlib import asynccontextmanager
 from app.models import giftcard, redemption
 from fastapi.middleware.cors import CORSMiddleware
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
@@ -11,8 +16,9 @@ async def lifespan(app: FastAPI):
     try:
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
+        logger.info("Database tables created successfully.")
     except Exception as e:
-        print(f"Error during startup: {e}")
+        logger.error(f"Error during startup: {e}")
     yield
 
 

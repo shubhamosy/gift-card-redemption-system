@@ -14,6 +14,10 @@ router = APIRouter(
 
 @router.get("/data")
 async def get_all_data(db: AsyncSession = Depends(get_db)):
+    """
+    Retrieve all system data including gift cards, redemptions, and Redis cache keys.
+    Used for the frontend data visualization page.
+    """
     # Fetch Gift Cards
     result_gc = await db.execute(select(GiftCard))
     gift_cards = result_gc.scalars().all()

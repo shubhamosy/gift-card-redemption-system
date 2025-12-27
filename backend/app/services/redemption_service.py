@@ -11,14 +11,29 @@ from app.models.giftcard import GiftCard, GiftCardStatus
 
 
 class RedemptionService:
+    """
+    Service layer for handling gift card operations including issuance, validation, and redemption.
+    Encapsulates business logic and database interactions.
+    """
     @staticmethod
     def generate_code(length=12) -> str:
+        """Generates a secure random alphanumeric code of specified length."""
         chars = string.ascii_uppercase + string.digits
         return ''.join(secrets.choice(chars) for _ in range(length))
 
 
     @staticmethod
     async def create_gift_card(db: AsyncSession, initial_balance: float) -> tuple[str, GiftCard]:
+        """
+        Creates a new gift card with the specified initial balance.
+        
+        Args:
+            db: Database session
+            initial_balance: The starting balance for the card
+            
+        Returns:
+            tuple: (plain_text_code, gift_card_object)
+        """
         code = RedemptionService.generate_code()
         code_hash = get_code_hash(code)
         
@@ -41,6 +56,19 @@ class RedemptionService:
 
     @staticmethod
     async def validate_gift_card(db: AsyncSession, code: str) -> GiftCard:
+        """
+        Validates a gift card code and returns the card details if active.
+        
+        Args:
+            db: Database session
+            code: The plain text gift card code
+            
+        Returns:
+            GiftCard: The gift card object
+            
+        Raises:
+            HTTPException: If card not found or inactive
+        """
         code_hash = get_code_hash(code) 
         result = await db.execute(select(GiftCard).where(GiftCard.code_hash == code_hash))
         gift_card = result.scalars().first()
@@ -48,6 +76,20 @@ class RedemptionService:
         if not gift_card:
             raise HTTPException(status_code=404, detail="Gift card not found")
             
+        """
+        Processes a redemption request for a gift card.
+        Handles idempotency, locking, and balance updates transactionally.
+        
+        Args:
+            db: Database session
+            code: Gift card code
+            amount: Amount to redeem
+            comment: Optional comment for the transaction
+            idempotency_key: Unique key to prevent duplicate transactions
+            
+        Returns:
+            tuple: (Redemption object, new_balance)
+        """
         if gift_card.status != GiftCardStatus.ACTIVE:
             raise HTTPException(status_code=400, detail=f"Gift card is {gift_card.status}")
             
